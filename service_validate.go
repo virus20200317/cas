@@ -8,6 +8,8 @@ import (
 	"path"
 
 	"github.com/golang/glog"
+
+	"github.com/sirupsen/logrus"
 )
 
 // NewServiceTicketValidator create a new *ServiceTicketValidator
@@ -74,9 +76,9 @@ func (validator *ServiceTicketValidator) ValidateTicket(serviceURL *url.URL, tic
 		return nil, fmt.Errorf("cas: validate ticket: %v", string(body))
 	}
 
-	if glog.V(2) {
-		glog.Infof("Received authentication response\n%v", string(body))
-	}
+
+	logrus.Infof("Received authentication response\n%v", string(body))
+
 
 	success, err := ParseServiceResponse(body)
 	if err != nil {
@@ -147,9 +149,9 @@ func (validator *ServiceTicketValidator) validateTicketCas1(serviceURL *url.URL,
 		return nil, fmt.Errorf("cas: validate ticket: %v", body)
 	}
 
-	if glog.V(2) {
-		glog.Infof("Received authentication response\n%v", body)
-	}
+
+	glog.Infof("Received authentication response\n%v", body)
+
 
 	if body == "no\n\n" {
 		return nil, nil // not logged in
